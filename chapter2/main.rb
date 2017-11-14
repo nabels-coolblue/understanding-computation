@@ -4,15 +4,11 @@ class Number < Struct.new(:value)
     end
 
     def to_s
-        "#<struct Number #{self.value} =>"
+        "#{self.value}"
     end
 
-    def reduce
-        self
-    end
-
-    def inspect
-        self
+    def inspect 
+        "«#{self}»"
     end
 end 
 
@@ -23,29 +19,20 @@ class Add < Struct.new(:left, :right)
 
     def reduce
         if (self.left.reducible?)
-            self.left = self.left.reduce
-            puts to_s
-        end
-        
-        if (self.right.reducible?)
-            self.right = self.right.reduce
-            puts to_s
-        end
-
-        Number.new(self.left.value + self.right.value);
-    end
-
-    def to_s
-        "#<struct Add left=#{self.left}, right#{self.right}=>"
-    end
-
-    def inspect
-        if (reducible?)
-            puts to_s
-            reduce;
+            Add.new(self.left.reduce, self.right)
+        elsif (self.right.reducible?)
+            Add.new(self.left, self.right.reduce)
         else
             Number.new(self.left.value + self.right.value);
         end
+    end 
+
+    def to_s
+        "#{self.left} + #{self.right}"
+    end
+
+    def inspect 
+        "«#{self}»"
     end
 end
 
@@ -56,55 +43,43 @@ class Multiply < Struct.new(:left, :right)
     
     def reduce
         if (self.left.reducible?)
-            self.left = self.left.reduce
-            puts to_s
-        end
-           
-        if (self.right.reducible?)
-            self.right = self.right.reduce
-            puts to_s
-        end
-
-        Number.new(self.left.value * self.right.value);
-    end
-
-    def to_s
-        "#<struct Multiply left=#{self.left}, right#{self.right}=>"
-    end
-
-    def inspect
-        if (reducible?)
-           puts to_s
-           reduce;
+            Multiply.new(self.left.reduce, self.right)
+        elsif (self.right.reducible?)
+            Multiply.new(self.left, self.right.reduce)
         else
             Number.new(self.left.value * self.right.value);
         end
     end
+
+    def to_s
+        "#{self.left} * #{self.right}"
+    end
+
+    def inspect 
+        "«#{self}»"
+    end
 end
 
-expression = Number.new(1)
-puts "expression: #{expression}"
-puts "evaluation:"
-puts expression.inspect
-puts
-
-expression = Add.new(Number.new(1), Number.new(1))
-puts "expression: #{expression}"
-puts "evaluation:"
-puts expression.inspect
-puts
-
-expression = Multiply.new(Number.new(1), Number.new(2))
-puts "expression: #{expression}"
-puts "evaluation:"
-puts expression.inspect
-puts
-
-expression = Multiply.new(
-    Add.new(Number.new(4), Number.new(3)),
-    Number.new(3)
+expression = 
+    Add.new(
+        Multiply.new(
+            Add.new(Number.new(4), Number.new(3)),
+            Add.new(Number.new(4), Number.new(3))
+        ),
+        Add.new(Number.new(4), Number.new(3))
     )
-puts "expression: #{expression}"
-puts "evaluation:"
-puts expression.inspect
-puts
+
+while(expression.reducible?)
+    puts expression
+    expression = expression.reduce
+end
+
+puts expression
+
+# sample output:
+# 4 + 3 * 4 + 3 + 4 + 3
+# 7 * 4 + 3 + 4 + 3
+# 7 * 7 + 4 + 3
+# 49 + 4 + 3
+# 49 + 7
+# 56
