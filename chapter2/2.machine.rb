@@ -10,11 +10,16 @@
 #   Output: the reduced expression
 
 class Machine < Struct.new(:expression)
+    def step
+        self.expression = expression.reduce
+    end
+
     def run
-        while(self.expression.reducible?)
-            self.expression = self.expression.reduce
-            puts self.expression
+        while expression.reducible?
+            puts expression
+            step
         end
+        puts expression
     end
 end
 
