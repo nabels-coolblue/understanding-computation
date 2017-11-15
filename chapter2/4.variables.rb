@@ -1,6 +1,7 @@
 # Goal:
-
 # Add support for variables in SIMPLE
+
+# Completed: the introduction of an environment completes our operational semantics of expressions. We’ve designed an abstract machine that begins with an initial expression and environment, and then uses the current expression and environment to produce a new expression in each small reduction step, leaving the environment unchanged.
 
 class Machine < Struct.new(:expression, :environment)
     def step
