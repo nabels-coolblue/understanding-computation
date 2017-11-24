@@ -41,3 +41,8 @@ end
 
 puts o.add(2, 3)
 puts o.add_twice(2, 3)
+
+aap = { 1 => "aap"}
+noot = { 2 => "noot" }
+aap = aap.merge(noot)
+puts aap
