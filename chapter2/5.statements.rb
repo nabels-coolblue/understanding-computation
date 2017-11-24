@@ -12,10 +12,11 @@
 
 class Machine < Struct.new(:expression, :environment)
     def step
-        self.expression = expression.reduce(environment)
+        self.expression, self.environment = expression.reduce(environment)
     end
 
     def run
+        puts expression
         while expression.reducible?
             puts "#{expression}, #{environment}"
             step
@@ -102,10 +103,9 @@ class Assign < Struct.new(:name, :expression)
 
     def reduce(environment)
         if (expression.reducible?)
-            Assign.new(name, expression.reduce(environment))
+            [Assign.new(name, expression.reduce(environment)), environment]
         else
-            environment[name] = expression
-            DoNothing.new
+            [DoNothing.new, environment.merge({ name => expression})]
         end
     end 
 
