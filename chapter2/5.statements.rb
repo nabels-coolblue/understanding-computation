@@ -16,7 +16,6 @@ class Machine < Struct.new(:expression, :environment)
     end
 
     def run
-        puts expression
         while expression.reducible?
             puts "#{expression}, #{environment}"
             step
