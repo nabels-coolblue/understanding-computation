@@ -1,9 +1,3 @@
-if (2 > 3)
-    puts 'kan niet'
-else
-    puts 'ruby klopt'
-end
-
 quantify = -> number {
     case number
     when 1
