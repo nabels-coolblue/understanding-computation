@@ -136,8 +136,10 @@ class If < Struct.new(:condition, :consequence, :alternative)
     end
 end
 
-Machine.new( If.new(
-    Variable.new(:x), Assign.new(:y, Number.new(1)), Assign.new(:y, Number.new(2))
+Machine.new( 
+    If.new(Variable.new(:x), 
+        Assign.new(:y, Number.new(1)), 
+        Assign.new(:y, Number.new(2))
     ),
     { x: Boolean.new(true) } ).run
 
