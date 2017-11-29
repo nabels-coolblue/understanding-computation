@@ -9,7 +9,7 @@
             "type": "Ruby",
             "request": "launch",
             "cwd": "${workspaceRoot}",
-            "program": "${workspaceRoot}/chapter2/12.denotational.semantics.rb"
+            "program": "${workspaceRoot}/chapter2/13.den.sem.continued.rb"
         },
         {
             "name": "Listen for rdebug-ide",
