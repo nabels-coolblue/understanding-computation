@@ -31,11 +31,20 @@ class Boolean < Struct.new(:value)
     end
 end
 
+class Variable < Struct.new(:name)
+    def to_ruby
+        "-> e { e[#{name.inspect}] }"
+    end
+end
+
 proc = eval(Number.new(5).to_ruby)
 puts proc.call({})
 
 proc = eval(Boolean.new(false).to_ruby)
 puts proc.call({})
+
+proc = eval(Variable.new(:x).to_ruby)
+puts proc.call({ x: 42 })
 
 # Output: 
 
