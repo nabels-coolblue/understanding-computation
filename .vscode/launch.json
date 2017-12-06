@@ -9,7 +9,7 @@
             "type": "Ruby",
             "request": "launch",
             "cwd": "${workspaceRoot}",
-            "program": "${workspaceRoot}/chapter2/14.den.sem.assign.rb"
+            "program": "${workspaceRoot}/chapter3/1.dfa.rulebook.rb"
         },
         {
             "name": "Listen for rdebug-ide",
