@@ -30,3 +30,9 @@ rulebook = DFARulebook.new([
 puts rulebook.next_state(1, 'a')
 puts rulebook.next_state(1, 'b')
 puts rulebook.next_state(2, 'b')
+
+# Output:
+
+# 2
+# 1
+# 3
