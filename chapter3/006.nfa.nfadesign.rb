@@ -38,26 +38,29 @@ class NFARulebook < Struct.new(:rules)
     end
 end
 
-class NFA < Struct.new(:start_state, :accept_states, :rulebook)
-    def accepts?(characters)
-        # return if the current states intersect with the accept_states
-        read_string(characters).intersect?(accept_states.to_set)
-    end
-    
-    def read_string(characters)
-        current_states = [start_state]
-        characters.each_char { |c| current_states = next_states(current_states, c) }        
-        current_states
+class NFA < Struct.new(:current_states, :accept_states, :rulebook)
+    def accepting?
+        (current_states & accept_states).any?
     end
 
-    def next_states(current_states, character)
-        rulebook.next_states(current_states, character)
+    def read_character(character)
+        self.current_states = rulebook.next_states(current_states, character)
+    end
+
+    def read_string(string)
+        string.chars.each do |character|
+            read_character(character)
+        end
     end
 end
 
 class NFADesign < Struct.new(:start_state, :accept_states, :rulebook)
-    def accepts?(characters)
-        NFA.new(start_state, accept_states, rulebook).accepts?(characters)
+    def accepts?(string)
+        to_nfa.tap { |nfa| nfa.read_string(string) }.accepting?
+    end
+
+    def to_nfa
+        NFA.new(Set[start_state], accept_states, rulebook)
     end
 end
 
