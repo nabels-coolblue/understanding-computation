@@ -2,6 +2,11 @@
 
 # Relaxing the determinism constraints has produced an imaginary machine that is very different from the real, deterministic computers we’re familiar with. An NFA deals in possibilities rather than certainties; we talk about its behavior in terms of what can happen rather than what will happen.
 
+# We’re using the Set class, from Ruby’s standard library, to store the collection of possible states returned by #next_states. We could have used an Array, but Set has three useful features:
+# 1. It automatically eliminates duplicate elements. Set[1,2,2,3,3,3] is equal to Set[1,2,3].
+# 2. It ignores the order of elements. Set[3,2,1] is equal to Set[1,2,3].
+# 3. It provides standard set operations like intersection (#&), union (# +), and subset testing (#subset?).
+
 # Assignment: create a rulebook for a non-deterministic finite automaton according to the below contract.
 
 # >> rulebook = NFARulebook.new([
