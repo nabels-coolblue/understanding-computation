@@ -1,3 +1,5 @@
+require 'set'
+
 quantify = -> number {
     case number
     when 1
@@ -46,3 +48,12 @@ aap = { 1 => "aap"}
 noot = { 2 => "noot" }
 aap = aap.merge(noot)
 puts aap
+
+characters = 'aab'
+
+characters.split("").each do |c|
+    puts c
+end
+
+Set[1, 2].flat_map{ |e| puts e }
+puts [1, 2].select { |i| i }.map(&:inspect)
