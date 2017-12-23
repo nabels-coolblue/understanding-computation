@@ -4,9 +4,6 @@ module Pattern
     end
     
     def bracket(outer_precedence)
-
-        puts "precedence - outer_precedence - to_s : [#{precedence}] - [#{outer_precedence}] - [#{to_s}] - [#{self.class}]" 
-
         if precedence < outer_precedence 
             '('+to_s+')'
         else
