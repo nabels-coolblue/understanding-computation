@@ -15,6 +15,9 @@ class Stack < Struct.new(:chars)
         self
     end
 
+    def inspect
+        "#<Stack (#{top})#{chars.drop(1).join}>"
+    end
 end
 
 # API behavior inspections
@@ -29,7 +32,7 @@ end
 # >> stack.push('x').push('y').pop.top => "x"
 
 stack = Stack.new(['a', 'b', 'c', 'd', 'e'])
-puts stack
+puts stack.inspect
 puts stack.top
 puts stack.pop.pop.top
 puts stack.push('x').push('y').top
