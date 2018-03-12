@@ -6,13 +6,11 @@ class Stack < Struct.new(:chars)
     end
 
     def pop
-        chars.shift
-        self
+        Stack.new(chars.drop(1))
     end
 
     def push(char)
-        chars.unshift(char)
-        self
+        Stack.new([char] + chars)        
     end
 
     def inspect
