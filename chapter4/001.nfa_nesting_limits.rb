@@ -1,5 +1,6 @@
 # Create a sample to verify the limits of a NFA
-# Since the rulebook will always be finite, we will never be able to implement a recursive algorithm with unlimited depth, as shown below
+#
+# Since the rulebook will always be finite, we will never be able to check something to an arbitrairy level of nesting
 
 require_relative 'nfa/_all'
 
