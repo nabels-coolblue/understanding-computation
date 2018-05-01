@@ -23,4 +23,8 @@ puts nfa_design.accepts?('(()')        #  false / unmatched
 puts nfa_design.accepts?('())')        #  false / unmatched
 puts nfa_design.accepts?('(())')       #  true  / 2 levels deep
 puts nfa_design.accepts?('(()(()()))') #  true  / 3 levels deep
-puts nfa_design.accepts?('(((())))')   #  false / 4 levels deep        
+
+# the following example shows the limitation of the NFA
+# although the braces are balanced, it does not have enough states
+# to consider this a correct example
+puts nfa_design.accepts?('(((())))')   #  false / 4 levels deep         
