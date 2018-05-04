@@ -3,8 +3,12 @@ class DPDA < Struct.new(:current_configuration, :accept_states, :rulebook)
         rulebook.follow_free_moves(super)
     end
     
+    def stuck?
+        current_configuration.stuck?
+    end
+
     def accepting?
-        ([current_configuration.state] & accept_states).any?
+        ([current_configuration.state] & accept_states).any? && !stuck?
     end
 
     def read_string(string)
