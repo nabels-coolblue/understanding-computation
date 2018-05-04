@@ -55,8 +55,12 @@ class DPDA < Struct.new(:current_configuration, :accept_states, :rulebook)
         rulebook.follow_free_moves(super)
     end
     
+    def stuck?
+        current_configuration.stuck?
+    end
+
     def accepting?
-        ([current_configuration.state] & accept_states).any? && !self.current_configuration.is_stuck?
+        ([current_configuration.state] & accept_states).any? && !stuck?
     end
 
     def read_string(string)
@@ -73,7 +77,7 @@ end
 
 Object.send(:remove_const, :PDAConfiguration) 
 class PDAConfiguration < Struct.new(:state, :stack)
-    @STUCK_STATE = false;
+    STUCK_STATE = Object.new
 
     def to_s
         "<PDAConfiguration 
@@ -81,16 +85,15 @@ class PDAConfiguration < Struct.new(:state, :stack)
         stack=\"#{stack}\">" 
     end
 
-    def is_stuck?
-        @STUCK_STATE
+    def stuck
+        PDAConfiguration.new(STUCK_STATE, stack)
     end
 
-    def set_stuck
-        @STUCK_STATE = true;
+    def is_stuck?
+        @STUCK_STATE
     end
 end
 
 # Previously, this would blow up, however, now it recognizes this as a non-accepted string
 puts dpda_design.accepts?('())') 
 # false
-
