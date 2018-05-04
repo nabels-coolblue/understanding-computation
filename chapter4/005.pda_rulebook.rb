@@ -3,14 +3,6 @@
 require_relative 'data_structures/_all'
 require_relative 'pda/_all'
 
-# The state, character and next_state need to match the current configuration of the machine in order for the rule to be applied
-# - state           : the state the rule can act on (1, 2, 3, etc)
-# - pop_character   : needs to match the topmost stack character ('(', ')', etc)
-# - character       : needs to match the next input character
-
-# - next_state      : if the rule applies, the machine should move to the specified state
-# - push_characters : after the pop_character gets popped off the stack (when moving to the next_state), these characters are pushed
-
 class DPDARulebook < Struct.new(:rules)
     def inspect
         puts "<struct DPDARulebook rules=#{rules}>"
