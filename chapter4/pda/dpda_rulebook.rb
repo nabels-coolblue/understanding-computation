@@ -8,4 +8,16 @@ class DPDARulebook < Struct.new(:rules)
         configuration = rule.follow(configuration)
         configuration
     end
+
+    def applies_to?(configuration, character)
+        rules.select { |rule| rule.applies_to?(configuration, character) }.any?
+    end
+
+    def follow_free_moves(configuration)
+        if applies_to?(configuration, nil)
+            follow_free_moves(next_configuration(configuration, nil))
+        else
+            configuration
+        end
+    end
 end
