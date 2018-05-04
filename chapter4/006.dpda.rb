@@ -1,6 +1,7 @@
 require_relative 'data_structures/_all'
 require_relative 'pda/_all'
 
+Object.send(:remove_const, :DPDARulebook) 
 class DPDA < Struct.new(:current_configuration, :accept_states, :rulebook)
     def current_configuration
         rulebook.follow_free_moves(super)
