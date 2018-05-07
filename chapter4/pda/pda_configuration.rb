@@ -11,7 +11,7 @@ class PDAConfiguration < Struct.new(:state, :stack)
         PDAConfiguration.new(STUCK_STATE, stack)
     end
 
-    def is_stuck?
-        @STUCK_STATE
+    def stuck?
+        STUCK_STATE == state
     end
 end

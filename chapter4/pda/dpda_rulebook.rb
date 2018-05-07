@@ -6,8 +6,7 @@ class DPDARulebook < Struct.new(:rules)
     def next_configuration(configuration, character)
         rule = rules.select { |rule| rule.applies_to?(configuration, character) }.at(0)
         if (rule == nil)
-            configuration.set_stuck()
-            configuration
+            configuration.stuck()
         else
             configuration = rule.follow(configuration)
             configuration
