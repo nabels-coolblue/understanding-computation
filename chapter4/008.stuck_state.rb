@@ -28,8 +28,7 @@ class DPDARulebook < Struct.new(:rules)
     def next_configuration(configuration, character)
         rule = rules.select { |rule| rule.applies_to?(configuration, character) }.at(0)
         if (rule == nil)
-            configuration.set_stuck()
-            configuration
+            configuration.stuck()
         else
             configuration = rule.follow(configuration)
             configuration
@@ -89,11 +88,27 @@ class PDAConfiguration < Struct.new(:state, :stack)
         PDAConfiguration.new(STUCK_STATE, stack)
     end
 
-    def is_stuck?
-        @STUCK_STATE
+    def stuck?
+        STUCK_STATE == state
     end
 end
 
 # Previously, this would blow up, however, now it recognizes this as a non-accepted string
 puts dpda_design.accepts?('())') 
 # false
+
+# Let's verify that the DPDA is actually stuck when it reads unmatched braces
+start_configuration = PDAConfiguration.new(1, Stack.new(['$']))
+dpda = DPDA.new(start_configuration, [1], rulebook)
+
+dpda.read_string('())')
+puts "dpda.current_configuration\n #{dpda.current_configuration}"
+puts "dpda.accepting? #{dpda.accepting?}"
+puts "dpda.stuck? #{dpda.stuck?}"
+
+# dpda.current_configuration
+#  <PDAConfiguration 
+#         state=#<Object:0x0000000005066ee0>
+#         stack="#<Stack ($)>">
+# dpda.accepting? false
+# dpda.stuck? true
