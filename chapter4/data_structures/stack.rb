@@ -1,19 +1,17 @@
-class Stack < Struct.new(:characters)
-    def top
-        characters.first
-    end
+class Stack < Struct.new(:contents)
+  def push(character)
+    Stack.new([character] + contents)
+  end
 
-    def to_s
-        "#<Stack (#{top})#{characters.drop(1).join}>"
-    end
-    
-    def pop
-        characters.shift
-        Stack.new(characters)
-    end
+  def pop
+    Stack.new(contents.drop(1))
+  end
 
-    def push(char)
-        characters.unshift(char)
-        Stack.new(characters)
-    end
+  def top
+    contents.first
+  end
+
+  def inspect
+    "#<Stack (#{top})#{contents.drop(1).join}>"
+  end
 end
