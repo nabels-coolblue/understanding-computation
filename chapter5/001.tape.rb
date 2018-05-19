@@ -13,6 +13,24 @@ class Tape < Struct.new(:left, :middle, :right, :blank)
 
         Tape.new(_left, _middle.join, _right, blank)
     end
+
+    def move_head_right
+        _left = [middle].concat(left)
+        
+        if (right.length > 0)
+            _middle = right.reverse.take(1)
+            _right = right.take(right.length - 1)
+        else
+            _middle = [blank]
+            _right = right
+        end
+
+        Tape.new(_left, _middle.join, _right, blank)
+    end
+
+    def write(char)
+        Tape.new(left, char, right, blank)
+    end
 end
 
 # The contract of a tape
@@ -26,14 +44,18 @@ puts '=> 1'
 puts tape.move_head_left 
 puts "=> #<Tape 10(1)1> >>"
 
-# puts tape.write('0')
-# puts "=> #<Tape 101(0)> >>"
+puts tape.write('0')
+puts "=> #<Tape 101(0)> >>"
 
-# puts tape.move_head_right 
-# puts "=> #<Tape 1011(_)> >>"
+puts tape.move_head_right 
+puts "=> #<Tape 1011(_)> >>"
 
-# puts tape.move_head_right.write('0')
-# puts "=> #<Tape 1011(0)>"
+puts tape.move_head_right.write('0')
+puts "=> #<Tape 1011(0)>"
+puts tape.move_head_right.write('0')
+puts "=> #<Tape 1011(0)>"
+puts tape.move_head_right.write('0')
+puts "=> #<Tape 1011(0)>"
 
 # Documentation
 
