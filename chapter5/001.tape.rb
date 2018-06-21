@@ -3,29 +3,23 @@
 
 class Tape < Struct.new(:left, :middle, :right, :blank)
     def to_s
-        "<Tape " + left.join + "(" + middle + ")" + right.join + "> >>"
+        "    <Tape " + left.join + "(" + middle + ")" + right.join + ">"
     end
 
     def move_head_left
-        _right = [middle].concat(right)
-        _middle = left.reverse.take(1)
-        _left = left.take(left.length - 1)
+        _left = left[0..-2]
+        _middle = left.last
+        _right = [middle] + right
 
-        Tape.new(_left, _middle.join, _right, blank)
+        Tape.new(_left, _middle, _right, blank)
     end
 
     def move_head_right
-        _left = [middle].concat(left)
-        
-        if (right.length > 0)
-            _middle = right.reverse.take(1)
-            _right = right.take(right.length - 1)
-        else
-            _middle = [blank]
-            _right = right
-        end
+        _left = left + [middle]
+        _middle = right.first || blank
+        _right = right.drop(1)
 
-        Tape.new(_left, _middle.join, _right, blank)
+        Tape.new(_left, _middle, _right, blank)
     end
 
     def write(char)
@@ -33,64 +27,38 @@ class Tape < Struct.new(:left, :middle, :right, :blank)
     end
 end
 
-# The contract of a tape
+puts "We use the contract of the tape to run a few behavioural tests"
+puts "Every line of output is followed by its desired output (starting with [V])"
+puts 
 
 puts tape = Tape.new(['1', '0', '1'], '1', [], '_')
-puts "=> <Tape 101(1)> >>"
-
-puts tape.middle 
-puts '=> 1'
-
-puts tape.move_head_left 
-puts "=> #<Tape 10(1)1> >>"
+puts "[V] <Tape 101(1)>"
+puts
 
 puts tape.write('0')
-puts "=> #<Tape 101(0)> >>"
+puts "[V] <Tape 101(0)>"
+puts
+
+puts tape.move_head_left 
+puts "[V] <Tape 10(1)1>"
+puts
 
 puts tape.move_head_right 
-puts "=> #<Tape 1011(_)> >>"
+puts "[V] <Tape 1011(_)>"
+puts
 
 puts tape.move_head_right.write('0')
-puts "=> #<Tape 1011(0)>"
-puts tape.move_head_right.write('0')
-puts "=> #<Tape 1011(0)>"
-puts tape.move_head_right.write('0')
-puts "=> #<Tape 1011(0)>"
+puts "[V] <Tape 1011(0)>"
 
-# Documentation
+# Output:
 
-# LENGTH / AT
-# left.length
-# 10
-# left.at(9)
-# 2
-# left.at(10)
-# nil
-
-# SHIFT 
-# args = [ "-m", "-q", "filename" ]
-# args.shift     #=> "-m"
-# args           #=> ["-q", "filename"]
-
-# args = [ "-m", "-q", "filename" ]
-# args.shift(2)  #=> ["-m", "-q"]
-# args           #=> ["filename"]
-
-# UNSHIFT 
-# a = [ "b", "c", "d" ]
-# a.unshift("a")   #=> ["a", "b", "c", "d"]
-# a.unshift(1, 2)  #=> [ 1, 2, "a", "b", "c", "d"]
-
-# TAKE
-# [2, 3, 3, 3, 3, 3, 3, 3, 3, 2]
-# left.take(0)
-# []
-# left.take(1)
-# [2]
-# left.take(2)
-# [2, 3]
-
-# DROP
-# [2, 3, 3, 3, 3, 3, 3, 3, 3, 2]
-# left.drop(1)
-# [3, 3, 3, 3, 3, 3, 3, 3, 2]
+#     <Tape 101(1)>
+# [V] <Tape 101(1)>
+#     <Tape 101(0)>
+# [V] <Tape 101(0)>
+#     <Tape 10(1)1>
+# [V] <Tape 10(1)1>
+#     <Tape 1011(_)>
+# [V] <Tape 1011(_)>
+#     <Tape 1011(0)>
+# [V] <Tape 1011(0)>
