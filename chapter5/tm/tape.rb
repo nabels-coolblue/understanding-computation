@@ -1,6 +1,6 @@
 class Tape < Struct.new(:left, :middle, :right, :blank)
-    def to_s
-        "    <Tape " + left.join + "(" + middle + ")" + right.join + ">"
+    def inspect
+        "<Tape " + left.join + "(" + middle + ")" + right.join + ">"
     end
 
     def move_head_left
