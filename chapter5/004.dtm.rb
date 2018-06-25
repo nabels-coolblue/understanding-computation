@@ -26,8 +26,9 @@ rulebook = DTMRulebook.new(
     TMRule.new(2, "_", 3, "_", :left),
   ]
 )
-tape = Tape.new(["1", "0", "1"], "1", [], "_")
 
+# Inspect the behaviour of our rulebook
+tape = Tape.new(["1", "0", "1"], "1", [], "_")
 #<struct DTMRulebook rules=[...]>
 puts configuration = TMConfiguration.new(1, tape)
 #<struct TMConfiguration state=1, tape=#<Tape 101(1)>>
@@ -52,12 +53,17 @@ class DTM < Struct.new(:configuration, :accept_states, :rulebook)
   end
 
   def run
-    while !accepting?
+    while !accepting? && !stuck?
       step
     end
   end
+
+  def stuck?
+    !accepting? && !rulebook.rule_for?(configuration)
+  end
 end
 
+# Inspect the behaviour of our machine, stepping through a bunch of rules that should lead to an accept_state
 dtm = DTM.new(TMConfiguration.new(1, tape), [3], rulebook)
 puts
 #<struct DTM ...>
@@ -76,3 +82,10 @@ puts dtm.current_configuration
 #<struct TMConfiguration state=3, tape=#<Tape 110(0)_>>
 puts dtm.accepting?
 #true
+
+# Inspect the behaviour of our machine where she is destined to fail
+tape = Tape.new(["1", "2", "1"], "1", [], "_")
+dtm = DTM.new(TMConfiguration.new(1, tape), [3], rulebook)
+dtm.run
+puts dtm.accepting?
+#false
